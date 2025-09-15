@@ -1,70 +1,129 @@
 package org.example;
 
-import java.util.Arrays;
-
 public class Main {
+
+    public static void process(Flyable flyable) {
+        flyable.fly();
+    }
+
     public static void main(String[] args) {
-        Phone phone = new Phone(2005);
-        WirelessPhone wirelessPhone = new WirelessPhone(1995, "Mark");
-
-        User user = new User(1234);
-        User user2 = new User(4321);
-        user.callAnotherUser(user2, wirelessPhone);
+        Bird crow = new Crow();
+        Bird eagle = new Eagle();
+        Plane plane = new Plane();
+        process(crow);
+        process(eagle);
+        process(plane);
     }
 }
 
-class User {
-    private int number;
+interface Flyable {
+    void fly();
+}
 
-    public User(int newNumber) {
-        number = newNumber;
-    }
+abstract class Bird implements Flyable {
+}
 
-    public void callAnotherUser(User user, Phone phone) {
-        phone.call(user.number);
+
+class Crow extends Bird {
+
+    @Override
+    public void fly() {
+        System.out.println("Crow");
     }
 }
 
-class Phone {
-     protected int year;
-
-     public int getYear() {
-         return year;
-     }
-
-     public void setYear(int newYear) {
-         if (newYear < 0) {
-             System.out.println("Invalid year");
-             year = 0;
-         }
-         year = newYear;
-     }
-
-    public void call(int number) {
-        createConnection();
-        System.out.println("Phone with year " + year + " is ringing for number " + number);
-    }
-
-    private void createConnection() {
-
-    }
-
-    public Phone(int newYear) {
-        year = newYear;
+class Eagle extends Bird {
+    @Override
+    public void fly() {
+        System.out.println("Eagle");
     }
 }
 
-class WirelessPhone extends Phone {
+class Plane implements Flyable {
+    @Override
+    public void fly() {
+        System.out.println("Plane");
+    }
+}
 
-    protected String mark;
 
-    public WirelessPhone(int newYear, String newMark) {
-        super(newYear);
-        mark = newMark;
+
+
+
+
+interface Drawable {
+    void draw();
+}
+
+class Circle implements Drawable {
+
+    @Override
+    public void draw() {
+        System.out.println("Draw Circle!");
+    }
+}
+
+
+abstract class Vehicle {
+    protected String name;
+    protected int speed;
+
+    public Vehicle(String name, int speed) {
+        this.name = name;
+        this.speed = speed;
+    }
+
+    public abstract void move();
+
+    public void display() {
+        System.out.println(name + " vehicle: " + speed);
+    }
+}
+
+class Bicycle extends Vehicle {
+    public Bicycle(String name, int speed) {
+        super(name, speed);
     }
 
     @Override
-    public void call(int number) {
-        System.out.println("Wireless Phone with year " + year + " is ringing for number " + number);
+    public void move() {
+        System.out.println("Bicycle is moving!");
+    }
+}
+
+//class Plane extends Vehicle {
+//    public Plane(String name, int speed) {
+//        super(name, speed);
+//    }
+//
+//    @Override
+//    public void move() {
+//        System.out.println("Plane is flying!");
+//    }
+//}
+
+class Counter {
+
+    static {
+        System.out.println("Counter");
+    }
+
+    public static int count = 0;
+
+    public int a = 0;
+
+    public static void change() {
+        System.out.println("A");
+    }
+
+    public Counter(int a) {
+        this.a = a;
+        Counter.count++;
+    }
+}
+
+class ChildCounter {
+    public static void change() {
+        System.out.println("B");
     }
 }
