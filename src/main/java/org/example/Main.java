@@ -1,129 +1,191 @@
 package org.example;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Main {
 
-    public static void process(Flyable flyable) {
-        flyable.fly();
-    }
-
     public static void main(String[] args) {
-        Bird crow = new Crow();
-        Bird eagle = new Eagle();
-        Plane plane = new Plane();
-        process(crow);
-        process(eagle);
-        process(plane);
+//        Bicycle bicycle = new Bicycle("Model");
+//        Bicycle.HandleBar handleBar = bicycle.new HandleBar();
+//        Bicycle.Seat seat = bicycle.new Seat();
+//        bicycle.start();
+//        handleBar.right();
+//        seat.setup();
+
+//        Library.Book book = new Library.Book("Title");
+//        Library library = new Library("Address");
+//        book.display();
+//        library.display();
+
+//        Button button = new Button();
+//        button.addListener(
+//                new Listener() {
+//                    @Override
+//                    public void onClick() {
+//                        System.out.println("Popup");
+//                    }
+//                }
+//        );
+//        button.addListener(
+//                new Listener() {
+//                    @Override
+//                    public void onClick() {
+//                        System.out.println("Notification!");
+//                    }
+//                }
+//        );
+//
+//        button.click();
+//
+//        Animal animal = new Animal() {
+//            @Override
+//            void makeSound() {
+//                System.out.println("Animal sound");
+//            }
+//        };
+//
+//        animal.makeSound();
+
+        Book book = new Book("Title", 10.0);
+        System.out.println(book.price());
+        System.out.println(book.title());
+        System.out.println(book.toString());
+        Book book1 = new Book("Title", 10.0);
+        System.out.println(book1.equals(book));
     }
 }
 
-interface Flyable {
-    void fly();
+record Book(String title, double price) {
 }
 
-abstract class Bird implements Flyable {
+sealed class Vehicle permits Car, Bike {
+    private String brand;
+
+    public Vehicle(String brand) {
+        this.brand = brand;
+    }
+}
+
+sealed class Car extends Vehicle permits SportCar {
+
+    public Car(String brand) {
+        super(brand);
+    }
+}
+
+non-sealed class SportCar extends Car {
+
+    public SportCar(String brand) {
+        super(brand);
+    }
+}
+
+final class Bike extends Vehicle {
+
+    public Bike(String brand) {
+        super(brand);
+    }
 }
 
 
-class Crow extends Bird {
+abstract class Animal {
+    abstract void makeSound();
+}
 
+class Button {
+    private List<Listener> listeners = new ArrayList<>();
+
+    public void addListener(Listener l) {
+        listeners.add(l);
+    }
+
+    public void click() {
+        for (Listener listener : listeners) {
+            listener.onClick();
+        }
+    }
+}
+
+interface Listener {
+    void onClick();
+}
+
+class PopupListener implements Listener {
     @Override
-    public void fly() {
-        System.out.println("Crow");
+    public void onClick() {
+        System.out.println("Popup");
     }
 }
 
-class Eagle extends Bird {
+class NotificationListener implements Listener {
     @Override
-    public void fly() {
-        System.out.println("Eagle");
-    }
-}
-
-class Plane implements Flyable {
-    @Override
-    public void fly() {
-        System.out.println("Plane");
+    public void onClick() {
+        System.out.println("Motification!");
     }
 }
 
 
+class Library {
+    private String address;
+    private static int a;
 
-
-
-
-interface Drawable {
-    void draw();
-}
-
-class Circle implements Drawable {
-
-    @Override
-    public void draw() {
-        System.out.println("Draw Circle!");
+    public Library(String address) {
+        this.address = address;
     }
-}
-
-
-abstract class Vehicle {
-    protected String name;
-    protected int speed;
-
-    public Vehicle(String name, int speed) {
-        this.name = name;
-        this.speed = speed;
-    }
-
-    public abstract void move();
 
     public void display() {
-        System.out.println(name + " vehicle: " + speed);
+        System.out.println("Library " + this.address);
+    }
+
+    static class Book {
+        private String title;
+
+        public Book(String title) {
+            this.title = title;
+            System.out.println(a);
+        }
+
+        public void setTitle(String title) {
+            this.title = title;
+        }
+
+        public String getTitle() {
+            return title;
+        }
+
+        public void display() {
+            System.out.println("Book " + title);
+        }
     }
 }
 
-class Bicycle extends Vehicle {
-    public Bicycle(String name, int speed) {
-        super(name, speed);
+
+class Bicycle {
+    private String model;
+
+    public Bicycle(String model) {
+        this.model = model;
     }
 
-    @Override
-    public void move() {
-        System.out.println("Bicycle is moving!");
-    }
-}
-
-//class Plane extends Vehicle {
-//    public Plane(String name, int speed) {
-//        super(name, speed);
-//    }
-//
-//    @Override
-//    public void move() {
-//        System.out.println("Plane is flying!");
-//    }
-//}
-
-class Counter {
-
-    static {
-        System.out.println("Counter");
+    public void start() {
+        System.out.println("Start!");
     }
 
-    public static int count = 0;
+    private class HandleBar {
+        public void right() {
+            System.out.println("Right!" + model);
+        }
 
-    public int a = 0;
-
-    public static void change() {
-        System.out.println("A");
+        public void left() {
+            System.out.println("Left!");
+        }
     }
 
-    public Counter(int a) {
-        this.a = a;
-        Counter.count++;
-    }
-}
-
-class ChildCounter {
-    public static void change() {
-        System.out.println("B");
+    private class Seat {
+        public void setup() {
+            System.out.println("Setup!");
+            Bicycle.this.start();
+        }
     }
 }
