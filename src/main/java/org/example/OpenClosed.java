@@ -1,13 +1,16 @@
 package org.example;
 
-class OrderService {
+class Order {
+    String orderType;
+}
 
-    public void deliver(String deliveryType) {
-        if (deliveryType.equals("courier")) {
+class OrderService {
+    public void deliver(Order order) {
+        if (order.orderType.equals("courier")) {
             // ... логика доставки курьером ...
-        } else if (deliveryType.equals("post")) {
+        } else if (order.orderType.equals("post")) {
             // ... логика доставки почтой ...
-        } else if (deliveryType.equals("pickup")) {
+        } else if (order.orderType.equals("pickup")) {
             // ... логика самовывоза ...
         }
     }

@@ -22,19 +22,19 @@ class TextPrinter implements Printer {
 
     @Override
     public void printImage(byte[] imageData) {
-        throw new UnsupportedOperationException("Метод не реализован");
+        System.out.println("Метод не реализован");
     }
 
     @Override
     public void printTable(String[][] tableData) {
-        throw new UnsupportedOperationException("Метод не реализован");
+        System.out.println("Метод не реализован");
     }
 }
 
 class ImagePrinter implements Printer {
     @Override
     public void printText(String text) {
-        throw new UnsupportedOperationException("Метод не реализован");
+        System.out.println("Метод не реализован");
     }
 
     @Override
@@ -44,19 +44,19 @@ class ImagePrinter implements Printer {
 
     @Override
     public void printTable(String[][] tableData) {
-        throw new UnsupportedOperationException("Метод не реализован");
+        System.out.println("Метод не реализован");
     }
 }
 
 class TablePrinter implements Printer {
     @Override
     public void printText(String text) {
-        throw new UnsupportedOperationException("Метод не реализован");
+        System.out.println("Метод не реализован");
     }
 
     @Override
     public void printImage(byte[] imageData) {
-        throw new UnsupportedOperationException("Метод не реализован");
+        System.out.println("Метод не реализован");
     }
 
     @Override

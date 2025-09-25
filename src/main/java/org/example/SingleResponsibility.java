@@ -16,7 +16,7 @@ class User {
     }
 
     public void resetPassword() {
-        
+        // ... логика восстановления пароля
     }
 }
 
