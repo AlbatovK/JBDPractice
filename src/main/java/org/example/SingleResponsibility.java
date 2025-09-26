@@ -6,7 +6,9 @@ class User {
     private String password;
 
     // ... конструктор и геттеры/сеттеры ...
+}
 
+class AuthenticationService {
     public void register(String name, String email, String password) {
         // ... логика регистрации ...
     }
@@ -14,9 +16,11 @@ class User {
     public void authenticate(String email, String password) {
         // ... логика авторизации ...
     }
+}
 
-    public void resetPassword() {
-        // ... логика восстановления пароля
+class PasswordRecoveryService {
+    public void recoverPassword() {
+
     }
 }
 

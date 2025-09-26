@@ -6,59 +6,56 @@ public class InterfaceSegregation {
     }
 }
 
-interface Printer {
+interface TextPrinterInterface {
     void printText(String text);
-
-    void printImage(byte[] imageData);
-
-    void printTable(String[][] tableData);
 }
 
-class TextPrinter implements Printer {
+interface PdfPrinterInterface {
+
+}
+
+class TextImagePrinter implements TextPrinterInterface, ImagePrinterInterface, TablePrinterInterface {
+    @Override
+    public void printTable(String[][] tableData) {
+
+    }
+
     @Override
     public void printText(String text) {
-        // ... логика печати текста ...
+
     }
 
     @Override
     public void printImage(byte[] imageData) {
-        System.out.println("Метод не реализован");
-    }
 
-    @Override
-    public void printTable(String[][] tableData) {
-        System.out.println("Метод не реализован");
     }
 }
 
-class ImagePrinter implements Printer {
+interface ImagePrinterInterface {
+    void printImage(byte[] imageData);
+}
+
+interface TablePrinterInterface {
+    void printTable(String[][] tableData);
+}
+
+class TextPrinter implements TextPrinterInterface {
     @Override
     public void printText(String text) {
-        System.out.println("Метод не реализован");
+        // ... логика печати текста ...
     }
+}
+
+class ImagePrinter implements ImagePrinterInterface {
 
     @Override
     public void printImage(byte[] imageData) {
         // ... логика печати изображения ...
     }
 
-    @Override
-    public void printTable(String[][] tableData) {
-        System.out.println("Метод не реализован");
-    }
 }
 
-class TablePrinter implements Printer {
-    @Override
-    public void printText(String text) {
-        System.out.println("Метод не реализован");
-    }
-
-    @Override
-    public void printImage(byte[] imageData) {
-        System.out.println("Метод не реализован");
-    }
-
+class TablePrinter implements TablePrinterInterface {
     @Override
     public void printTable(String[][] tableData) {
         // ... логика печати таблицы ...

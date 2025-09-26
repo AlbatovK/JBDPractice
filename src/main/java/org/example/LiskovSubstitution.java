@@ -13,12 +13,16 @@ public class LiskovSubstitution {
         System.out.println("Площадь квадрата после изменения ширины: " + calculateArea(square));
     }
 
-    public static double calculateArea(Rectangle shape) {
+    public static double calculateArea(Shape shape) {
         return shape.calculateArea();
     }
 }
 
-class Rectangle {
+interface Shape {
+    double calculateArea();
+}
+
+class Rectangle implements Shape {
     private double width;
     private double height;
 
@@ -34,22 +38,31 @@ class Rectangle {
         this.width = width;
         this.height = height;
     }
-
     public double getWidth() {
         return width;
     }
-
     public double getHeight() {
         return height;
     }
-
     public double calculateArea() {
         return width * height;
     }
 }
 
-class Square extends Rectangle {
+class Square implements Shape {
+
+    private double side;
+
+    public void setHeight(double height) {
+        this.side = height;
+    }
+
+    @Override
+    public double calculateArea() {
+        return side * side;
+    }
+
     public Square(double side) {
-        super(side, side);
+        this.side = side;
     }
 }
