@@ -1,88 +1,132 @@
 package org.example;
 
-import java.io.*;
 import java.lang.reflect.Constructor;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.Arrays;
-import java.util.Scanner;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class Main {
 
-    public static void main(String[] args) throws IOException, NoSuchMethodException {
-//        File file = new File("a.txt");
-//        try {
-//            boolean result = file.createNewFile();
-//            System.out.println(result);
+    public static void main(String[] args) throws NoSuchMethodException, NoSuchFieldException, IllegalAccessException, InvocationTargetException, InterruptedException {
+//        Sample obj = new Sample();
+//        Class<? extends Sample> cls = obj.getClass();
+//        System.out.println(cls.getName());
+//        Constructor<? extends Sample> constructor = cls.getConstructor();
+//        System.out.println(constructor.getParameterCount());
 //
-//            System.out.println(file.getName());
-//            System.out.println(file.getAbsoluteFile());
-//            System.out.println(file.length());
-//            System.out.println(file.isDirectory());
-//            System.out.println(file.lastModified());
-//
-//            File dir = new File("directory");
-//            result = dir.mkdir();
-//            System.out.println(result);
-//            System.out.println(dir.isDirectory());
-//
-//            File src = new File("src");
-//            for (File f: src.listFiles()) {
-//                System.out.println(f.getName());
-//            }
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-
-//        try (BufferedReader out = new BufferedReader(new FileReader("a.txt"));
-//             FileWriter in = new FileWriter("a.txt")) {
-//            String text = "Hello, world!";
-//            in.write(text);
-//            in.append("\nSecondLine");
-//            in.flush();
-//
-//            String s;
-//            while ((s = out.readLine()) != null) {
-//                System.out.println(s);
-//            }
-//        } catch (IOException e) {
-//            e.printStackTrace();
+//        Method[] methods = cls.getMethods();
+//        for (Method method : methods) {
+//            System.out.println(method.getName() + " " + method.getReturnType());
 //        }
 //
 //        System.out.println();
-//        Scanner scanner = new Scanner(System.in);
+//        obj.printString();
+//        Field field = cls.getDeclaredField("str");
+//        field.setAccessible(true);
+//        field.set(obj, "New String");
+//        obj.printString();
+//
+//        Method privateMethod = cls.getDeclaredMethod("privateMethod");
+//        privateMethod.setAccessible(true);
+//        privateMethod.invoke(obj);
 
 
-//        Files.readAllLines(Path.of(".../..."));
-//        Path path = Path.of("..");
-//        path.toAbsolutePath();
-//        Files.copy();
-//        Files.createTempFile();
+//        Thread thread = new MyThread();
+//        thread.start();
+//        System.out.println("Hello from main");
+//        Thread thread1 = new MyThread();
+//        thread1.setName("MyThread");
+//        thread1.start();
+
+//        Runnable task = () -> {
+//            try {
+//                System.out.println("Work in another thread started");
+//                Thread.sleep(20000);
+//                System.out.println("Work in another thread ended");
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//        };
+//
+//        Thread thread2 = new Thread(task);
+//        thread2.setDaemon(true);
+//        thread2.start();
+//        System.out.println("Work in main started");
+//        Thread.sleep(10000);
+//        System.out.println("Work in main ended");
+//        thread2.interrupt();
+
+//        Runnable task = () -> {
+//            try {
+//                System.out.println("Start Thread");
+//                Thread.sleep(5000);
+//                System.out.println("Finished");
+//            } catch (InterruptedException e)  {
+//                e.printStackTrace();
+//            }
+//        };
+//        Thread thread = new Thread(task);
+//        thread.start();
+//        thread.join(3000);
+//
+//        System.out.println("Work in main");
 
 
+        ExecutorService executorService = Executors.newCachedThreadPool();
 
-        Sample obj = new Sample("Java Reflection API");
+        for (int i = 0; i < 5; i++) {
+            RunnableTask task = new RunnableTask(String.valueOf(i));
+            executorService.execute(task);
+        }
 
-        Class<? extends Sample> cls = obj.getClass();
-        System.out.println(cls.getName());
+        executorService.shutdown();
+    }
+}
 
-        Constructor<? extends Sample> constructor = cls.getConstructor(String.class);
-        System.out.println(constructor.getName());
 
+class RunnableTask implements Runnable {
+    private final String taskName;
+
+    public RunnableTask(String taskName) {
+        this.taskName = taskName;
+    }
+
+    @Override
+    public void run() {
+        try {
+            Thread.sleep(3000);
+            System.out.println("Task " + taskName + " is complete");
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+}
+
+
+class MyThread extends Thread {
+    @Override
+    public void run() {
+        try {
+            System.out.println("Start");
+            Thread.sleep(2000);
+            System.out.println("hello from " + this);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
 
 class Sample {
     private final String str;
 
-    public Sample(String str) {
-        this.str = str;
+    public Sample() {
+        this.str = "Java Reflection API";
     }
 
-    public void printStr() {
-        System.out.println(str);
+    public void printString() {
+        System.out.println(this.str);
     }
 
     private void privateMethod() {
